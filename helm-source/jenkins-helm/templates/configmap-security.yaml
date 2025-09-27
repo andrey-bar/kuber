@@ -6,4 +6,3 @@ metadata:
 data:
   basic-security.groovy: |-
 {{ .Values.configMaps.basicSecurity | indent 4 }}
-

@@ -1,0 +1,26 @@
+jenkins:
+  numExecutors: 2
+  clouds:
+    - kubernetes:
+        containerCapStr: "10"
+        maxRequestsPerHostStr: "32"
+        jenkinsUrl: "http://jenkins:8080"
+        name: "kubernetes"
+        namespace: "ci-cd"
+        skipTlsVerify: true
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+          - usernamePassword:
+              description: "Githubuser"
+              id: "some_randome"
+              password: "XXXXXXXXXXX"
+              scope: GLOBAL
+              username: "git_hub_user11"
+unclassified:
+  location:
+    adminAddress: "pluhin@gmail.com"
+    url: "http://jenkins.k8s-XX.sa/"
+  shell:
+    shell: "/bin/bash"

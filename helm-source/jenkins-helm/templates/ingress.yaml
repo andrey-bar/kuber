@@ -18,4 +18,3 @@ spec:
                 port:
                   number: {{ .Values.jenkins.httpPort }}
 {{- end }}
-

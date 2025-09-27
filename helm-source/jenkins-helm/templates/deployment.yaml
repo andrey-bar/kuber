@@ -3,6 +3,10 @@ kind: Deployment
 metadata:
   name: jenkins
   namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/managed-by: "Helm"
+    meta.helm.sh/release-name: "jenkins-helm"
+    meta.helm.sh/release-namespace: "ci-cd"
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -24,7 +28,7 @@ spec:
                   name: jenkins-secret
                   key: password
             - name: JAVA_OPTS
-              value: "-Djenkins.install.runSetupWizard=false"
+              value: "-Jenkins.install.runSetupWizard=false"
             - name: CASC_JENKINS_CONFIG
               value: /var/jenkins_home/casc_configs/jenkins.yaml
           ports:
@@ -33,7 +37,12 @@ spec:
             - name: jnlp-port
               containerPort: 50000
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            requests:
+              cpu: {{ .Values.jenkins.cpuRequest }}
+              memory: {{ .Values.jenkins.memoryRequest }}
+            limits:
+              cpu: {{ .Values.jenkins.cpuLimit }}
+              memory: {{ .Values.jenkins.memoryLimit }}
           volumeMounts:
             - name: jenkins-auth-config
               mountPath: /var/jenkins_home/init.groovy.d/basic-security.groovy
@@ -54,4 +63,3 @@ spec:
           nfs:
             server: {{ .Values.persistence.nfs.server }}
             path: {{ .Values.persistence.nfs.path }}
-

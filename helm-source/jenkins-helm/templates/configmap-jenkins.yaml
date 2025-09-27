@@ -4,6 +4,5 @@ metadata:
   name: jenkins-config
   namespace: {{ .Values.namespace }}
 data:
-  jenkins.yaml: |-
-{{ .Values.configMaps.jenkinsConfig | indent 4 }}
-
+  jenkins.yaml: |
+{{- .Files.Get "files/jenkins.yaml" | nindent 8 }}
